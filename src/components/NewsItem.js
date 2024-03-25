@@ -2,11 +2,16 @@ import React, { Component } from "react";
 
 export class NewsItem extends Component {
   render() {
-    let { title, description, imageURL, newURL, fullTitle } = this.props;
+    let { title, description, imageURL, newsURL, fullTitle } = this.props;
     return (
       <div>
-        <div className="card" style={{ width: "18rem" }}>
-          <img src={imageURL} className="card-img-top" alt="..." />
+        <div className="card">
+          <img
+            src={imageURL}
+            className="card-img-top"
+            alt="..."
+            style={{ height: "180px" }}
+          />
           <div className="card-body">
             <h5 title={fullTitle} className="card-title">
               {title}...
@@ -15,8 +20,8 @@ export class NewsItem extends Component {
             <a
               rel="noopener"
               target="_blank"
-              href={newURL}
-              className="btn btn-sm btn-primary"
+              href={newsURL}
+              className="btn btn-sm btn-dark"
             >
               Read More
             </a>
