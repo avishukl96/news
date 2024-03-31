@@ -24,14 +24,27 @@ export class News extends Component {
       page: 1,
       pageSize: this.props.pageSize,
     };
+    document.title = `${this.capitalize(this.props.category)} - News Headlines`;
   }
 
+  capitalize = (str) => {
+    if (!str || str.length === 0) {
+      return "";
+    }
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  };
+
   async updateNews() {
-    let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=504d970796a04919a54abc3670f8ae36&page=1&pageSize=${this.state.pageSize}`;
+    let url = `https://newsapi.org/v2/top-headlines?q=${
+      this.state.keyword ? this.state.keyword : ""
+    }&country=${this.props.country}&category=${
+      this.props.category
+    }&apiKey=504d970796a04919a54abc3670f8ae36&page=1&pageSize=${
+      this.state.pageSize
+    }`;
     this.setState({ loading: true });
     let data = await fetch(url);
     let parseData = await data.json();
-    //console.log(parseData.articles);
     this.setState({
       articles: parseData.articles,
       loading: false,
@@ -104,10 +117,33 @@ export class News extends Component {
     this.updateNews();
   };
 
+  handleKeywordSearch = (event) => {
+    this.setState({ keyword: event.target.value });
+    this.updateNews();
+  };
+
   render() {
     return (
       <div className="container my-3">
-        <h2 className="my-4 text-center">Top News Headlines</h2>
+        <h2 className="my-4 text-center">
+          Top News Headlines from {this.capitalize(this.props.category)}
+        </h2>
+        {/* <div className="container mt-5">
+          <div className="row">
+            <div className="col-md-3 ">
+              <div className="input-group mb-3">
+                <input
+                  type="text"
+                  className="form-control"
+                  value={this.state.keyword}
+                  onChange={this.handleKeywordSearch}
+                  placeholder="Search news..."
+                />
+              </div>
+            </div>
+          </div>
+        </div> */}
+
         {this.state.loading && <Spinner />}
         <div className="row">
           {!this.state.loading &&
