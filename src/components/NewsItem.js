@@ -12,6 +12,7 @@ export class NewsItem extends Component {
       date,
       source,
     } = this.props;
+
     return (
       <div>
         <div className="card">
